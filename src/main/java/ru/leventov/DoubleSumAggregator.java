@@ -20,6 +20,11 @@ public class DoubleSumAggregator implements DoubleAggregator {
     }
 
     @Override
+    public void aggregate(OneOffsetMemory buffer, int position, double value) {
+        buffer.putDouble(position, buffer.getDouble(position) + value);
+    }
+
+    @Override
     public void aggregate(NoOffsetMemory buffer, long position, double value) {
         buffer.putDouble(position, buffer.getDouble(position) + value);
     }

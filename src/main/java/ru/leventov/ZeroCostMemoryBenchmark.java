@@ -129,6 +129,40 @@ public class ZeroCostMemoryBenchmark {
     }
 
     @State(Scope.Thread)
+    public static class OneOffsetMemoryState {
+        private OneOffsetMemory dimensionMemory;
+        private OneOffsetMemory metricMemory;
+        private OneOffsetMemory targetMemory;
+
+        @Setup
+        public void init(ByteBufferState s) {
+            dimensionMemory = OneOffsetMemory.from(s.dimensionBuffer);
+            metricMemory = OneOffsetMemory.from(s.metricBuffer);
+            targetMemory = OneOffsetMemory.from(s.targetBuffer);
+        }
+    }
+
+    @Benchmark
+    public double processOneOffsetMemory(ByteBufferState s0, OneOffsetMemoryState s) {
+        OneOffsetMemory dimensionMemory = s.dimensionMemory;
+        OneOffsetMemory metricMemory = s.metricMemory;
+        int[] positions = s0.positions;
+        OneOffsetMemory targetMemory = s.targetMemory;
+        int positionOffset = 0;
+        for (int i = 0; i < SIZE * 4; i += 4) {
+            int dimValue = dimensionMemory.getInt(i);
+            int position = positions[dimValue];
+            if (position >= 0) {
+                aggregator.aggregate(targetMemory, position, metricMemory.getFloat(i));
+            } else {
+                positions[dimValue] = positionOffset;
+                positionOffset += 8;
+            }
+        }
+        return targetMemory.getDouble(0);
+    }
+
+    @State(Scope.Thread)
     public static class NoOffsetMemoryState {
         private NoOffsetMemory dimensionMemory;
         private NoOffsetMemory metricMemory;
