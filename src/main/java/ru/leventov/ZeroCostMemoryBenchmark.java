@@ -190,7 +190,7 @@ public class ZeroCostMemoryBenchmark {
         for (int i = 0; i < SIZE * 4; i += 4) {
             int dimValue = dimensionMemory.getInt(dimensionStart + i);
             long position = positions[dimValue];
-            if (position >= 0) {
+            if (position != 0) {
                 aggregator.aggregate(targetMemory, position, metricMemory.getFloat(metricStart + i));
             } else {
                 positions[dimValue] = targetMemory.start() + positionOffset;
@@ -228,7 +228,7 @@ public class ZeroCostMemoryBenchmark {
         for (int i = 0; i < SIZE * 4; i += 4) {
             int dimValue = dimensionMemory.getInt(dimensionStart + i);
             long position = positions[dimValue];
-            if (position >= 0) {
+            if (position != 0) {
                 aggregator.aggregate(targetMemory, position, metricMemory.getFloat(metricStart + i));
             } else {
                 positions[dimValue] = targetMemory.start() + positionOffset;
