@@ -3,6 +3,7 @@ package ru.leventov;
 import org.openjdk.jmh.annotations.*;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.concurrent.TimeUnit;
 
 @BenchmarkMode(Mode.AverageTime)
@@ -21,7 +22,9 @@ public class ZeroCostMemoryBenchmark {
     public String alloc;
 
     public ByteBuffer allocate(int size) {
-        return alloc.equals("direct") ? ByteBuffer.allocateDirect(size) : ByteBuffer.allocate(size);
+        ByteBuffer buffer = alloc.equals("direct") ? ByteBuffer.allocateDirect(size) : ByteBuffer.allocate(size);
+        buffer.order(ByteOrder.nativeOrder());
+        return buffer;
     }
 
     @State(Scope.Thread)
