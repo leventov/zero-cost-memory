@@ -25,13 +25,13 @@ public class DirectNoOffsetTwoImplMemoryImpl implements NoOffsetTwoImplMemory {
 
     @Override
     public float getFloat(long offset) {
-        assert checkBounds(offset,5);
+        assert checkBounds(offset,4);
         return UnsafeUtil.U.getFloat(offset);
     }
 
     @Override
     public int getInt(long offset) {
-        assert checkBounds(offset,5);
+        assert checkBounds(offset,4);
         return UnsafeUtil.U.getInt(offset);
     }
 
