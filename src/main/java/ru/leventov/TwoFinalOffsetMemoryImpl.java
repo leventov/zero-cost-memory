@@ -39,6 +39,12 @@ public class TwoFinalOffsetMemoryImpl implements TwoFinalOffsetMemory {
         return UnsafeUtil.U.getInt(object, heapOffset + directOffset + offset);
     }
 
+    @Override
+    public void putInt(long offset, int value) {
+        assert checkBounds(offset, 4);
+        UnsafeUtil.U.putInt(object, heapOffset + directOffset + offset, value);
+    }
+
     private boolean checkBounds(long offset, int size) {
         if (offset < 0 || offset + size >= limit) {
             throw new BufferOverflowException();

@@ -20,5 +20,8 @@ public interface NoOffsetTwoImplMemory {
     float getFloat(long offset);
     int getInt(long offset);
 
+    long getLong(long offset);
+    void putLong(long offset, long value);
+
     long start();
 }

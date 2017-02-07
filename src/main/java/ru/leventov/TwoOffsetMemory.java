@@ -20,4 +20,5 @@ public interface TwoOffsetMemory {
     void putDouble(long offset, double value);
     float getFloat(long offset);
     int getInt(long offset);
+    void putInt(long offset, int value);
 }

@@ -37,6 +37,12 @@ public class OneOffsetMemoryImpl implements OneOffsetMemory {
         return UnsafeUtil.U.getInt(object, this.offset + offset);
     }
 
+    @Override
+    public void putInt(long offset, int value) {
+        assert checkBounds(offset, 4);
+        UnsafeUtil.U.putInt(object, this.offset + offset, value);
+    }
+
     private boolean checkBounds(long offset, int size) {
         if (offset < 0 || offset + size >= limit) {
             throw new BufferOverflowException();

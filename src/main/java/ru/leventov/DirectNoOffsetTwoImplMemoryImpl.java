@@ -35,6 +35,18 @@ public class DirectNoOffsetTwoImplMemoryImpl implements NoOffsetTwoImplMemory {
         return UnsafeUtil.U.getInt(offset);
     }
 
+    @Override
+    public long getLong(long offset) {
+        assert checkBounds(offset,8);
+        return UnsafeUtil.U.getLong(offset);
+    }
+
+    @Override
+    public void putLong(long offset, long value) {
+        assert checkBounds(offset,8);
+        UnsafeUtil.U.putLong(offset, value);
+    }
+
     private boolean checkBounds(long offset, int size) {
         if (offset < start || offset + size >= end) {
             throw new BufferOverflowException();
